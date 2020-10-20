@@ -59,7 +59,7 @@ class UsersController extends AppController {
                 .query()
                 .first()
                 .where('deleted_at', null)
-                .andWhere('coin', process.env.COIN)
+                .andWhere('coin_code', process.env.COIN)
                 .andWhere('is_active', true)
                 .andWhere('type', 1)
                 .orderBy('id', 'DESC')
@@ -78,10 +78,12 @@ class UsersController extends AppController {
                 if (walletData == undefined) {
                     var userReceiveAddress = await addressHelper.addressData();
 
+                    var data = userReceiveAddress.split(":")
+
                     var dataValue = await WalletModel
                         .query()
                         .insertAndFetch({
-                            "receive_address": userReceiveAddress,
+                            "receive_address": data[1],
                             "coin_id": coinData.id,
                             "user_id": user_id,
                             "deleted_at": null,
@@ -177,7 +179,7 @@ class UsersController extends AppController {
                 // .andWhere('type', 2)
                 .orderBy('id', 'DESC')
 
-            console.log(coinData);
+            console.log("coinData", coinData);
 
             if (coinData != undefined) {
 
@@ -766,7 +768,7 @@ class UsersController extends AppController {
                 .json({
                     "status": 200,
                     "message": "Litecoin Fees",
-                    "data": { "totalKB": totalKB, "fee": totalKB * getFee.feerate }
+                    "data": { "totalKB": totalKB, "fee": getFee }
                 })
         } catch (error) {
             console.log(error);

@@ -11,11 +11,13 @@ var getFee = async () => {
             'Authorization': 'Basic ' + encodeKey,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ "jsonrpc": "1.0", "id": "1", "method": "estimatesmartfee", "params": [2] })
+        body: JSON.stringify({ "jsonrpc": "1.0", "id": "1", "method": "estimatefee" })
 
     };
     var dataValue = await new Promise(async (resolve, reject) => {
         request(options, function (error, response) {
+            console.log("error", error);
+            console.log("response", response)
             if (error) throw new Error(error);
             var data = JSON.parse(response.body)
             resolve(data.result)
