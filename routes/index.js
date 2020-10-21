@@ -15,6 +15,7 @@ app.get("/get/v1/get-webhook-data", CoinsRoute.returnWebhookdata);
 app.get("/api/v1/get-currency-converted-value", CoinsRoute.getEquivalentValue);
 app.get("/api/v1/get-account-balance", CoinsRoute.getBalanceValue);
 app.post("/api/v1/get-bitcoin-cash-fees", CoinsRoute.getEstimatedFees);
+app.get("/api/v1/get-transaction-list", CoinsRoute.coinWarmTransactionList);
 
 
 app.use(function (req, res, next) {

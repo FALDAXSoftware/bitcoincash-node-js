@@ -36,6 +36,7 @@ var WalletModel = require('../../models/v1/WalletModel');
 var WalletHistoryModel = require('../../models/v1/WalletHistory');
 var TransactionTableModel = require('../../models/v1/TransactionTableModel');
 var UserNotificationModel = require("../../models/v1/UserNotifcationModel");
+var CurrencyConversionModel = require("../../models/v1/CurrencyConversion");
 
 /**
  * Users
@@ -772,6 +773,245 @@ class UsersController extends AppController {
                 })
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    async coinWarmTransactionList(req, res) {
+        try {
+
+            var coinData = await CoinsModel
+                .query()
+                .first()
+                .select()
+                .where("deleted_at", null)
+                .andWhere("coin_code", process.env.COIN);
+
+            var coinFiatValue = await CurrencyConversionModel
+                .query()
+                .first()
+                .select()
+                .where("deleted_at", null)
+                .andWhere("coin_id", coinData.id);
+            var transactionList = await listTransactionHelper.listTransaction()
+            console.log(transactionList)
+
+            var responseObject = {}
+
+            var transfers = [];
+
+            // Remove this object
+            var transactionList = [
+                {
+                    address: 'SfPGv8gykt9qveJUdEwFw7GkM2i3CQk9As',
+                    category: 'send',
+                    amount: -400,
+                    label: '',
+                    vout: 1,
+                    fee: -0.00329032,
+                    confirmations: 29943,
+                    blockhash: '000000000000000146dd4f93b5dbd56650336c27f33886b451fcc28db2fcd0e1',
+                    blockindex: 2,
+                    blocktime: 1599645749,
+                    txid: '6cb7e626e77be0f5812fe8559b307dd179116d68c8cc7924347cbbcd51630b32',
+                    walletconflicts: [],
+                    time: 1599645459,
+                    timereceived: 1599645459,
+                    'bip125-replaceable': 'no',
+                    comment: 'test',
+                    abandoned: false
+                },
+                {
+                    address: 'ShbqNsVeKw5gyxgtxPC46vmj7JmsJ4DhND',
+                    category: 'send',
+                    amount: -85088.49,
+                    vout: 0,
+                    fee: -0.04473445,
+                    confirmations: 17379,
+                    blockhash: '00000000000004b5c8096b63dae159502fb50f1a9c0b4ba833f00d2987a3f415',
+                    blockindex: 1,
+                    blocktime: 1601168377,
+                    txid: '5a8518763d40669ee05d180ad736003a7dc52f9f2abaf00d9712d9824a08fd58',
+                    walletconflicts: [],
+                    time: 1601168329,
+                    timereceived: 1601168329,
+                    'bip125-replaceable': 'no',
+                    comment: 'test',
+                    abandoned: false
+                },
+                {
+                    address: 'Sh357J8bTE1j61f72ybYpPJ8QkW1Gvb6AT',
+                    category: 'send',
+                    amount: -13779.35875824,
+                    vout: 0,
+                    fee: -0.05819617,
+                    confirmations: 17378,
+                    blockhash: '00000000000000850555aca40e33e2ef6d9dace2faa8bf54e64632aa8208114c',
+                    blockindex: 1,
+                    blocktime: 1601168796,
+                    txid: 'cb492e502c622e8611abb06ce2ea4c30aecc0d69da36722615d50fa03ee10347',
+                    walletconflicts: [],
+                    time: 1601168519,
+                    timereceived: 1601168519,
+                    'bip125-replaceable': 'no',
+                    comment: 'test',
+                    abandoned: false
+                },
+                {
+                    address: 'SZfeja6pRJLaCmQK9tDZW3UKMzKpKA8Aok',
+                    category: 'send',
+                    amount: -5444.43564356,
+                    vout: 1,
+                    fee: -0.00972848,
+                    confirmations: 17288,
+                    blockhash: '00000000000002c4dadb35250242e2119cefe994f8dc436344a56459824b7cca',
+                    blockindex: 1,
+                    blocktime: 1601179959,
+                    txid: 'af31426f5b1e4536f55bd6d855c1c3ab6b395f977216cf8f2d68c7fc3fbab71e',
+                    walletconflicts: [],
+                    time: 1601179565,
+                    timereceived: 1601179565,
+                    'bip125-replaceable': 'no',
+                    comment: 'test',
+                    abandoned: false
+                },
+                {
+                    address: 'SbohWtoVmSXgHyieqm8BnujDoVa7VjfQz7',
+                    category: 'receive',
+                    amount: 192.51766959,
+                    label: '',
+                    vout: 0,
+                    confirmations: 5110,
+                    blockhash: '0000000000000321448c036c8e8974fcad1919c714c47120cc86233e4f8b21b5',
+                    blockindex: 1,
+                    blocktime: 1602656180,
+                    txid: '11df19a71e626ee8ecb1e5f78bf46d88e64955e9c66b0c849cfb058395673765',
+                    walletconflicts: [],
+                    time: 1602656033,
+                    timereceived: 1602656033,
+                    'bip125-replaceable': 'no'
+                },
+                {
+                    address: 'SbohWtoVmSXgHyieqm8BnujDoVa7VjfQz7',
+                    category: 'receive',
+                    amount: 65.95174701,
+                    label: '',
+                    vout: 2,
+                    confirmations: 5106,
+                    blockhash: '0000000000000277bddcc9a5e8826c25b50e708ba98764079547491c7324379e',
+                    blockindex: 2,
+                    blocktime: 1602656946,
+                    txid: '0e8cb687e135433fd0abf0d3d8ff2b48252db3f8ff8644b33eae92cb4a07bae1',
+                    walletconflicts: [],
+                    time: 1602656646,
+                    timereceived: 1602656646,
+                    'bip125-replaceable': 'no'
+                },
+                {
+                    address: 'SbohWtoVmSXgHyieqm8BnujDoVa7VjfQz7',
+                    category: 'receive',
+                    amount: 9.36478865,
+                    label: '',
+                    vout: 1,
+                    confirmations: 5102,
+                    blockhash: '000000000000057c701df724cedc410073e9c3bd95994841ad26c895ddf1d68a',
+                    blockindex: 1,
+                    blocktime: 1602657370,
+                    txid: '5af48af3d147dc1b641eaaeab56f61265ae53332bf066fb3d7fd043db4f043dd',
+                    walletconflicts: [],
+                    time: 1602657258,
+                    timereceived: 1602657258,
+                    'bip125-replaceable': 'no'
+                },
+                {
+                    address: 'SbohWtoVmSXgHyieqm8BnujDoVa7VjfQz7',
+                    category: 'receive',
+                    amount: 68.17750156,
+                    label: '',
+                    vout: 1,
+                    confirmations: 4412,
+                    blockhash: '00000000000003fe28753767a716638f07a60da05460869a62c1283f04ba6a2d',
+                    blockindex: 1,
+                    blocktime: 1602740317,
+                    txid: 'b4d70b5273d2b235916d4f93983d1ad34624b65dc9618c9c6fc40ceab8952d5e',
+                    walletconflicts: [],
+                    time: 1602740166,
+                    timereceived: 1602740166,
+                    'bip125-replaceable': 'no'
+                },
+                {
+                    address: 'SbohWtoVmSXgHyieqm8BnujDoVa7VjfQz7',
+                    category: 'receive',
+                    amount: 50.9731368,
+                    label: '',
+                    vout: 3,
+                    confirmations: 4406,
+                    blockhash: '000000000000026aa40125af73e38f84cd60e8a5225da5bf978c320f59fc2760',
+                    blockindex: 1,
+                    blocktime: 1602740895,
+                    txid: '79621c8ea3c8028fcddf309068aebb364a3f0ebb0ae9a99a45a0a79d0139846a',
+                    walletconflicts: [],
+                    time: 1602740775,
+                    timereceived: 1602740775,
+                    'bip125-replaceable': 'no'
+                },
+                {
+                    address: 'Sj5HhvHuHfUiZhF3y8xpSc7VU9UnFaTUAn',
+                    category: 'receive',
+                    amount: 1,
+                    label: '',
+                    vout: 1,
+                    confirmations: 2490,
+                    blockhash: '000000000000032801513835b269444ae5f8929b20c68c96e7bc0a53c634fa71',
+                    blockindex: 1,
+                    blocktime: 1602972522,
+                    txid: 'f45cf9f23e2240fc4f6477b2fae868b40735231507a86d2fac9ad1d6cc208fcd',
+                    walletconflicts: [],
+                    time: 1602972391,
+                    timereceived: 1602972391,
+                    'bip125-replaceable': 'no'
+                }
+            ]
+
+            for (var i = 0; i < transactionList.length; i++) {
+                var pushObject = {};
+                var amount = 0.0;
+                // console.log("transactionList[i].amount < 0", transactionList[i].amount < 0);
+                // console.log("Math.abs(transactionList[i].amount)", Math.abs(transactionList[i].amount))
+                if (transactionList[i].amount > 0) {
+                    amount = Math.abs(transactionList[i].amount)
+                } else {
+                    amount = Math.abs(transactionList[i].amount)
+                }
+                // console.log("amount", amount)
+                pushObject = {
+                    type: transactionList[i].category,
+                    baseValue: (transactionList[i].amount > 0) ? (transactionList[i].amount) : (Math.abs(transactionList[i].amount)),
+                    baseValueString: (transactionList[i].amount > 0) ? (transactionList[i].amount) : (Math.abs(transactionList[i].amount)),
+                    coin: coinData.coin_code,
+                    createdTime: moment(transactionList[i].time).format("DD-MM-YYYY h:mm:ss"),
+                    date: moment(transactionList[i].time).format("DD-MM-YYYY h:mm:ss"),
+                    entries: transactionList[i].conflicts,
+                    feeString: (transactionList[i].category == "send") ? (- (transactionList[i].fee)) : (0.0),
+                    normalizedTxHash: (transactionList[i].txid),
+                    txid: (transactionList[i].txid),
+                    usdRate: (coinFiatValue != undefined && coinFiatValue.quote != undefined) ? (coinFiatValue.quote["USD"].price) : (0.0),
+                    usd: (coinFiatValue != undefined && coinFiatValue.quote != undefined) ? ((amount) * coinFiatValue.quote["USD"].price) : (0.0),
+                    value: Number(parseFloat(amount * coinData.coin_precision).toFixed(8)),
+                    valueString: (amount * coinData.coin_precision).toString(),
+                    wallet: "bc1q0kvfwzxqw7geguwwr4rgdwa39z9lpwqlue9frk"
+                }
+                transfers.push(pushObject)
+            }
+            responseObject.coin = coinData.coin_code;
+            responseObject.transfers = transfers;
+            return res
+                .status(200)
+                .json({
+                    "status": 200,
+                    "data": responseObject
+                })
+        } catch (error) {
+            console.log("error", error)
         }
     }
 }

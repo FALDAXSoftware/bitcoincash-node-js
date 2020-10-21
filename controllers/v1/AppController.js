@@ -6,7 +6,7 @@ var jwt = require('jwt-simple');
 
 class AppController {
 
-  constructor() {}
+  constructor() { }
 }
 
 module.exports.AppController = AppController;
