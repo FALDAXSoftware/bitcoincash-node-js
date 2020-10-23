@@ -1035,8 +1035,7 @@ class UsersController extends AppController {
             } else {
                 return res.status(500).json({
                     "status": 500,
-                    "message": "System Health is Not Good.",
-                    error_at: error.stack
+                    "message": "System Health is Not Good."
                 })
             }
 
