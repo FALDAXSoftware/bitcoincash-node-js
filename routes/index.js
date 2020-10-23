@@ -16,6 +16,7 @@ app.get("/api/v1/get-currency-converted-value", CoinsRoute.getEquivalentValue);
 app.get("/api/v1/get-account-balance", CoinsRoute.getBalanceValue);
 app.post("/api/v1/get-bitcoin-cash-fees", CoinsRoute.getEstimatedFees);
 app.get("/api/v1/get-transaction-list", CoinsRoute.coinWarmTransactionList);
+app.get('/api/v1/health-check', CoinsRoute.healthCheck)
 
 
 app.use(function (req, res, next) {
