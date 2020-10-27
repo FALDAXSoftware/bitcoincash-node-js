@@ -12,6 +12,7 @@ var i18n = require("i18n");
 const Validator = require('node-input-validator');
 var session = require('express-session')
 var cron = require('node-cron');
+var mailer = require('express-mailer');
 // var coinController = require("./controllers/v1/CoinsController")
 
 app.use(cors())
@@ -26,6 +27,11 @@ i18n.configure({
 
 app.use(i18n.init);
 
+// Set views folder for emails
+app.set('views', __dirname + '/views');
+// Set template engin for view files
+app.set('view engine', 'ejs');
+
 // Json parser
 app.use(bodyParser.json({
   limit: "2.7mb",
@@ -36,7 +42,17 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
-
+mailer.extend(app, {
+  from: process.env.EMAIL_DEFAULT_SENDING,
+  host: process.env.EMAIL_HOST, // hostname
+  secureConnection: true, // use SSL
+  port: 465, // port forSMTP
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD
+  },
+  transportMethod: process.env.EMAIL_TRANSPORT_METHOD
+});
 
 app.all('/*', function (req, res, next) {
   // CORS headers
@@ -61,8 +77,6 @@ app.all('/*', function (req, res, next) {
     next();
   }
 });
-
-
 
 var server = http.createServer(app);
 
