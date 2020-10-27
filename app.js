@@ -48,7 +48,7 @@ app.all('/*', function (req, res, next) {
     i18n.setLocale(req.headers.language);
   }
   console.log(req.headers["x-token"])
-  if (req.headers["x-token"] != "faldax-bitcoin-cash-node") {
+  if (req.url != "/api/v1/health-check" && req.headers["x-token"] != "faldax-bitcoin-cash-node") {
     res
       .status(403)
       .json({ status: 403, message: ("Unauthorized access") });
