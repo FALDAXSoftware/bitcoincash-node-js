@@ -60,7 +60,7 @@ var formatEmail = async (emailContent, data) => {
 
 var sendSMS = async (slug, user) => {
     // console.log("INSIDE SMS", requestedData);
-    var SmsTemplate = require("../models/SmsTemplate");
+    var SmsTemplate = require("../models/v1/SmsTemplate");
     var twilio = require('twilio');
     // var email = user.email;
     // var user_detail = requestedData.user_detail;
@@ -71,8 +71,8 @@ var sendSMS = async (slug, user) => {
     var template_name = template.template;
 
     let language_content = template.content;
-    var value = {};
-    value.recipientName = user.first_name
+    var object = {};
+    object.recipientName = user.first_name
     if (user.reason && user.reason != undefined && user.reason != null) {
         object.reason = user.reason
     }
@@ -112,7 +112,7 @@ var sendSMS = async (slug, user) => {
     var authToken = await module.exports.getDecryptData(process.env.TWILLIO_ACCOUNT_AUTH_TOKEN); // Your Auth Token from www.twilio.com/console
     // console.log("authToken", authToken)
     var accountNumber = process.env.TWILLIO_ACCOUNT_FROM_NUMBER
-    var user_id = user_detail.id;
+    var user_id = user.id;
 
     // console.log("language_content", language_content)
 
