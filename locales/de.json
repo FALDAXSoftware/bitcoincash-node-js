@@ -1,0 +1,10 @@
+{
+    "SERVER_ERROR" : "error de servidor interno.",
+    "NOT_FOUND":"Los registros no existen.",
+    "LINK_EXPIRED":"Sorry, the link is expired.",
+    "ACTIVATE_ACCOUNT": "Enlace de activación ha sido enviado a su correo electrónico. Por favor, revisa tu e-mail para activar tu cuenta.",
+    "SUBJECT_ACTIVATE_ACCOUNT":"activa tu cuenta",
+    "ACCOUNT_ACTIVATED_SUCCESS":"Congratulations. Your account is activated. You can login now.",
+    "TOKEN_EXPIRED" : "Token is expired.",
+    "UNAUTHORIZED_ACCESS": "Unauthorized access."        
+}
